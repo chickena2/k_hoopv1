@@ -25,6 +25,9 @@
 		8431F1BE1938049D006BD86B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8431F1961938049D006BD86B /* UIKit.framework */; };
 		8431F1C61938049D006BD86B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8431F1C41938049D006BD86B /* InfoPlist.strings */; };
 		8431F1C81938049D006BD86B /* k_hoopv1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8431F1C71938049D006BD86B /* k_hoopv1Tests.m */; };
+		84439BC1194259EC0047A006 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 84439BC0194259EC0047A006 /* ball.png */; };
+		84439BC3194656F50047A006 /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = 84439BC2194656F50047A006 /* player.png */; };
+		84439BC51946A6630047A006 /* angle_aim.png in Resources */ = {isa = PBXBuildFile; fileRef = 84439BC41946A6630047A006 /* angle_aim.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +65,9 @@
 		8431F1C31938049D006BD86B /* k_hoopv1Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "k_hoopv1Tests-Info.plist"; sourceTree = "<group>"; };
 		8431F1C51938049D006BD86B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8431F1C71938049D006BD86B /* k_hoopv1Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = k_hoopv1Tests.m; sourceTree = "<group>"; };
+		84439BC0194259EC0047A006 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ball.png; path = ../../ball.png; sourceTree = "<group>"; };
+		84439BC2194656F50047A006 /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = player.png; path = ../../player.png; sourceTree = "<group>"; };
+		84439BC41946A6630047A006 /* angle_aim.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = angle_aim.png; path = ../../angle_aim.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +137,10 @@
 				8431F1AD1938049D006BD86B /* ViewController.m */,
 				8431F1AF1938049D006BD86B /* MyScene.h */,
 				8431F1B01938049D006BD86B /* MyScene.m */,
+				84439BC2194656F50047A006 /* player.png */,
 				8431F1B21938049D006BD86B /* Spaceship.png */,
+				84439BC41946A6630047A006 /* angle_aim.png */,
+				84439BC0194259EC0047A006 /* ball.png */,
 				8431F1B41938049D006BD86B /* Images.xcassets */,
 				8431F19B1938049D006BD86B /* Supporting Files */,
 			);
@@ -214,6 +223,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "knoob studio";
 				TargetAttributes = {
+					8431F18E1938049D006BD86B = {
+						DevelopmentTeam = GAJHQ4L8V9;
+					};
 					8431F1B91938049D006BD86B = {
 						TestTargetID = 8431F18E1938049D006BD86B;
 					};
@@ -243,11 +255,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84439BC3194656F50047A006 /* player.png in Resources */,
 				8431F1B31938049D006BD86B /* Spaceship.png in Resources */,
 				8431F1B51938049D006BD86B /* Images.xcassets in Resources */,
 				8431F1AB1938049D006BD86B /* Main_iPad.storyboard in Resources */,
 				8431F1A81938049D006BD86B /* Main_iPhone.storyboard in Resources */,
+				84439BC51946A6630047A006 /* angle_aim.png in Resources */,
 				8431F19F1938049D006BD86B /* InfoPlist.strings in Resources */,
+				84439BC1194259EC0047A006 /* ball.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,10 +419,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "k_hoopv1/k_hoopv1-Prefix.pch";
 				INFOPLIST_FILE = "k_hoopv1/k_hoopv1-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -418,10 +436,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "k_hoopv1/k_hoopv1-Prefix.pch";
 				INFOPLIST_FILE = "k_hoopv1/k_hoopv1-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -486,6 +507,7 @@
 				8431F1CD1938049D006BD86B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8431F1CE1938049D006BD86B /* Build configuration list for PBXNativeTarget "k_hoopv1Tests" */ = {
 			isa = XCConfigurationList;
@@ -494,6 +516,7 @@
 				8431F1D01938049D006BD86B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
