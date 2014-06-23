@@ -8,8 +8,7 @@
 
 #import "MyScene.h"
 
-static const float vel_x = 600;
-static const float vel_y = 600;
+static const float power = 700;
 static const float gravity = -4.8;
 
 @implementation MyScene {
@@ -18,6 +17,9 @@ static const float gravity = -4.8;
     SKSpriteNode *ball;
     SKSpriteNode *grid;
     SKSpriteNode *aim;
+    SKSpriteNode *needle;
+    SKSpriteNode *b_rotateUp;
+    SKSpriteNode *b_rotateDown;
 }
 
 -(id)initWithSize:(CGSize)size {
@@ -33,11 +35,37 @@ static const float gravity = -4.8;
         [self addGrid];
         [self addRim];
         [self addAim];
+        [self addNeedle];
+        [self addUpButton];
+        [self addDownButton];
     }
     return self;
 }
 
+-(void)addDownButton {
+    b_rotateDown = [[SKSpriteNode alloc] initWithImageNamed:@"ball"];
+    b_rotateDown.name = @"rotate up";
+    b_rotateDown.position = CGPointMake(300, 200);
+    [self addChild:b_rotateDown];
+}
+         
+-(void)addUpButton {
+    b_rotateUp = [[SKSpriteNode alloc] initWithImageNamed:@"ball"];
+    b_rotateUp.name = @"rotate down";
+    b_rotateUp.position = CGPointMake(300, 300);
+    [self addChild:b_rotateUp];
+}
 
+
+
+-(void)addNeedle {
+    needle = [[SKSpriteNode alloc] initWithColor:[SKColor blackColor] size:CGSizeMake(100,1)];
+    needle.anchorPoint = CGPointMake(0,0);
+    needle.position = ball.position;
+    needle.zPosition = -1;
+    needle.zRotation = M_PI_4;
+    [self addChild:needle];
+}
 
 -(void)addGrid {
     grid = [[SKSpriteNode alloc] initWithColor:[SKColor blackColor] size:CGSizeMake(100,1)];
@@ -89,6 +117,7 @@ static const float gravity = -4.8;
     aim = [[SKSpriteNode alloc] initWithImageNamed:@"angle_aim"];
     aim.anchorPoint = CGPointMake(0,0);
     aim.position = ball.position;
+    aim.zPosition = -2;
     [self addChild:aim];
 }
 
@@ -101,14 +130,25 @@ static const float gravity = -4.8;
     return rim;
 }
 
+-(void)throwBall {
+    ball.physicsBody.affectedByGravity = true;
+    ball.physicsBody.velocity = CGVectorMake(power*cosf(needle.zRotation),
+                                             power*sinf(needle.zRotation));
+}
+
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInNode:self];
     SKNode *touchedNode = [self nodeAtPoint:location];
     
     if (touchedNode.name == ball.name) {
-        ball.physicsBody.affectedByGravity = true;
-        ball.physicsBody.velocity = CGVectorMake(vel_x,vel_y);
+        [self throwBall];
+    }
+    else if (touchedNode.name == b_rotateUp.name) {
+        needle.zRotation = needle.zRotation + M_PI/90;
+    }
+    else if (touchedNode.name == b_rotateDown.name) {
+        needle.zRotation = needle.zRotation - M_PI/90;
     }
     else {
         NSLog(@"touch nothing");
@@ -117,7 +157,8 @@ static const float gravity = -4.8;
 
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
-    if (ball.position.x > 800 || ball.position.y > 1000) {
+    if (ball.position.x > 800 || ball.position.y > 1000
+        || ball.position.x < player.position.x) {
         [ball removeFromParent];
         [self addBall];
     }
