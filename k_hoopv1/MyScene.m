@@ -10,6 +10,8 @@
 
 static const float power = 700;
 static const float gravity = -4.8;
+static const float r_in = 70;
+static const float r_out = 100;
 
 @implementation MyScene {
     SKSpriteNode *ground;
@@ -20,6 +22,7 @@ static const float gravity = -4.8;
     SKSpriteNode *needle;
     SKSpriteNode *b_rotateUp;
     SKSpriteNode *b_rotateDown;
+    CGPoint p_start;
 }
 
 -(id)initWithSize:(CGSize)size {
@@ -136,7 +139,23 @@ static const float gravity = -4.8;
                                              power*sinf(needle.zRotation));
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    p_start = [touch locationInNode:self];
+}
+
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    if ([self isInsideAim:p_start]) {
+        UITouch *touch = [touches anyObject];
+        CGPoint location = [touch locationInNode:self];
+        if ([self isInsideAim:location]) {
+            SKAction *rotate = [SKAction rotateToAngle:[self touchAngle:location] duration:1];
+            [needle runAction: rotate];
+        }
+    }
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInNode:self];
     SKNode *touchedNode = [self nodeAtPoint:location];
@@ -151,7 +170,7 @@ static const float gravity = -4.8;
         needle.zRotation = needle.zRotation - M_PI/90;
     }
     else {
-        NSLog(@"touch nothing");
+        NSLog(@"%2f,%2f", [self touchAngle:p_start],[self angleBetween:p_start and:location]);
     }
 }
 
@@ -164,4 +183,38 @@ static const float gravity = -4.8;
     }
 }
 
+-(float)distanceBetween:(CGPoint)pointA and:(CGPoint)pointB {
+    float dx = pointB.x - pointA.x;
+    float dy = pointB.y - pointA.y;
+    return sqrt(dx*dx + dy*dy );
+}
+
+-(float)angleBetween:(CGPoint)pointA and:(CGPoint)pointB {
+    return [self touchAngle:pointB] - [self touchAngle:pointA];
+}
+
+-(BOOL)isInsideAim:(CGPoint)pointA {
+    if (pointA.x > ball.position.x && pointA.y > ball.position.y) {
+        float d = [self distanceBetween:pointA and:ball.position];
+        if (d > r_in && d < r_out) {
+            return TRUE;
+        }
+        else return FALSE;
+    }
+    else return FALSE;
+}
+
+-(float)touchAngle:(CGPoint)touchPoint {
+    float dy = touchPoint.y - ball.position.y;
+    float dx = touchPoint.x - ball.position.x;
+    return atan2f(dy, dx);
+}
+
+-(void)rotateClockwise {
+    needle.zRotation = needle.zRotation - M_PI/90;
+}
+
+-(void)rotateCounterClockwise {
+    needle.zRotation = needle.zRotation + M_PI/90;
+}
 @end
